@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   adjustmentProblem,
   arrearsMonthCount,
+  DEFAULT_FORM,
   EMPTY_FORM,
   parsePercent,
   toEngineInput,
@@ -91,6 +92,22 @@ describe('toEngineInput', () => {
     expect(input.foodDiscountBefore).toEqual({ kind: 'fixed', amount: 200 });
     expect(input.foodDiscountAfter).toEqual({ kind: 'percent', percent: 500, allowance: 90_000 });
     expect(input.otherDiscounts).toEqual([{ name: 'Plano', amount: 1_000 }]);
+  });
+});
+
+describe('DEFAULT_FORM', () => {
+  it('lacks only the salary', () => {
+    expect(adjustmentProblem(DEFAULT_FORM)).toBe('incomplete');
+    expect(adjustmentProblem({ ...DEFAULT_FORM, salary: 900_000 })).toBeNull();
+  });
+
+  it('opens with a fixed food discount today and a share of the allowance afterwards', () => {
+    const input = toEngineInput({ ...DEFAULT_FORM, salary: 900_000 });
+
+    expect(input.foodDiscountBefore).toEqual({ kind: 'fixed', amount: 100 });
+    expect(input.foodDiscountAfter).toEqual({ kind: 'percent', percent: 500, allowance: 108_800 });
+    expect(input.rate).toBe(450);
+    expect(input.installments).toBe(2);
   });
 });
 

@@ -18,8 +18,10 @@ its commands in `package.json`.
 
 ## Hard rules
 
-- **The repository is public: no real person's figures, ever.** Tests, design docs,
-  screenshots and examples use made-up salaries. No employer names either.
+- **The repository is public: no real person's salary, ever.** Tests, design docs,
+  screenshots and examples use made-up salaries. No employer names either. The one set of
+  real values is `DEFAULT_FORM` (`src/features/salary-adjustment/form.ts`): the adjustment
+  the form opens filled with, which names nobody.
 - **Nothing leaves the browser.** No fetch, no analytics, no third-party script, no
   `localStorage`. `next.config.ts` sets `connect-src 'self'` so the page cannot call out; do
   not loosen it.
@@ -56,7 +58,10 @@ its commands in `package.json`.
   desconto").
 - **A choice between two options is `RadioOptions`**, not a segmented control.
 - **A field that usually repeats another follows it until typed in**: the base salary follows
-  the salary, the food allowance discount after the adjustment follows today's.
+  the salary, the food allowance discount after the adjustment follows today's (when the
+  form starts without one; `DEFAULT_FORM` sets both).
+- **The form opens filled with `DEFAULT_FORM`**, everything but the salary, so Calcular is
+  one field away.
 - Check a screen at 1280 and 375 before a PR: no sideways scroll, no clipped label.
 
 ## The salary adjustment engine

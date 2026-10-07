@@ -4,7 +4,7 @@ import { useMemo, useRef, useState } from 'react';
 
 import { AdjustmentFormFields } from '@/features/salary-adjustment/adjustment-form';
 import { AdjustmentResult } from '@/features/salary-adjustment/adjustment-result';
-import { adjustmentProblem, EMPTY_FORM, toEngineInput, type AdjustmentForm } from '@/features/salary-adjustment/form';
+import { adjustmentProblem, DEFAULT_FORM, toEngineInput, type AdjustmentForm } from '@/features/salary-adjustment/form';
 import {
   calculateSalaryAdjustment,
   type SalaryAdjustment,
@@ -23,7 +23,7 @@ type Calculated = { input: SalaryAdjustmentInput; result: SalaryAdjustment };
  * marks it as out of date.
  */
 export function AdjustmentScreen() {
-  const [form, setForm] = useState<AdjustmentForm>(EMPTY_FORM);
+  const [form, setForm] = useState<AdjustmentForm>(DEFAULT_FORM);
   const [calculated, setCalculated] = useState<Calculated | null>(null);
   const resultRef = useRef<HTMLDivElement>(null);
 

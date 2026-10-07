@@ -63,6 +63,20 @@ export const EMPTY_FORM: AdjustmentForm = {
   installments: '1',
 };
 
+/**
+ * What the screen opens with: the 2026 adjustment the site was first shared for, so that
+ * only the salary is left to type. Every field stays editable.
+ */
+export const DEFAULT_FORM: AdjustmentForm = {
+  ...EMPTY_FORM,
+  foodBefore: { ...EMPTY_FOOD_DISCOUNT, kind: 'fixed', amount: 1_00 },
+  foodAfter: { ...EMPTY_FOOD_DISCOUNT, allowance: 1_088_00 },
+  rate: '4,5',
+  effectiveMonth: '2026-05',
+  firstPaidMonth: '2026-09',
+  installments: '2',
+};
+
 /** `incomplete` is a field nobody has answered yet: it disables Calcular without a message. */
 export type AdjustmentProblem =
   | 'incomplete'

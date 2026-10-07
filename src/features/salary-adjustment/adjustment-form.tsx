@@ -93,7 +93,7 @@ function FoodDiscountLine({
 
   return (
     <div className="flex min-w-0 flex-col gap-1.5">
-      <span className="text-xs text-muted">{title}</span>
+      <span className="text-[13px] font-semibold text-ink">{title}</span>
       <RadioOptions
         name={`${id}-kind`}
         label={`${title}: como o desconto é feito`}
