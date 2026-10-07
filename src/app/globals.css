@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+  }
+}
+
+@layer utilities {
+  .focus-halo {
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-paper;
+  }
+  .label-caps {
+    @apply text-[11px] font-medium uppercase leading-[14px] tracking-[0.08em] text-subtle;
+  }
+}

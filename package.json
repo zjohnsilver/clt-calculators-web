@@ -1,0 +1,41 @@
+{
+  "name": "clt-calculators-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 12000",
+    "build": "next build",
+    "start": "next start -p 12000",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@radix-ui/react-popover": "^1.1.23",
+    "clsx": "^2",
+    "lucide-react": "^1.41.0",
+    "next": "15.5.25",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "tailwind-merge": "^2"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.25",
+    "postcss": "^8",
+    "tailwindcss": "^3.4",
+    "typescript": "^5",
+    "vite": "^8.3.0",
+    "vitest": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=22 <23"
+  },
+  "packageManager": "yarn@4.13.0"
+}
