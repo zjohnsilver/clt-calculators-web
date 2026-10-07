@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup · Calculadora de reajuste salarial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F3EFE6;
+    --card: #FBF9F4;
+    --white: #FFFFFF;
+    --ink: #0B0B0D;
+    --muted: #5B5B66;
+    --subtle: #7A7A85;
+    --line: #E0DBCF;
+    --line-strong: #CEC8B9;
+    --hover: #ECE8DD;
+    --raise: #14704F;
+    --raise-soft: #DDEDE4;
+    --arrears: #A85F00;
+    --arrears-soft: #F6E7CC;
+    --base: #C9C3B5;
+    --danger: #C21D33;
+    --display: 'Bricolage Grotesque', sans-serif;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #D9D5CC; font-family: var(--sans); color: var(--ink); padding: 32px; display: flex; flex-direction: column; gap: 40px; }
+  .doc h1 { font-family: var(--display); font-size: 26px; font-weight: 600; }
+  .doc p, .doc li { font-size: 14px; color: #3d3d45; line-height: 1.55; max-width: 900px; }
+  .doc ul { padding-left: 18px; display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
+  .sec { display: flex; flex-direction: column; gap: 12px; }
+  .sec > h2 { font-family: var(--display); font-size: 18px; font-weight: 600; }
+  .sec > .note { font-size: 13px; color: #3d3d45; max-width: 900px; }
+  .phones { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .col { display: flex; flex-direction: column; gap: 8px; }
+  .col > .cap { font-size: 13px; font-weight: 600; }
+  .col > .sub { font-size: 12px; color: #3d3d45; max-width: 375px; }
+
+  /* ---------- the site ---------- */
+  .frame { background: var(--paper); border: 1px solid #b9b4a8; overflow: hidden; }
+  .frame.desktop { width: 1280px; }
+  .frame.phone { width: 375px; }
+  .top { display: flex; align-items: center; gap: 12px; padding: 0 32px; height: 64px; border-bottom: 1px solid var(--line); }
+  .phone .top { padding: 0 16px; height: 56px; }
+  .mark { width: 28px; height: 28px; border-radius: 8px; background: var(--ink); color: var(--paper); display: grid; place-items: center; font-family: var(--mono); font-size: 14px; font-weight: 600; }
+  .brand { font-family: var(--display); font-weight: 600; font-size: 16px; flex: 1; }
+  .privacy { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); }
+  .phone .privacy { display: none; }
+  .shell { display: flex; position: relative; }
+  .main { flex: 1; min-width: 0; }
+  .rail-slot { flex: 0 0 64px; width: 64px; position: relative; }
+  .rail { position: absolute; top: 0; bottom: 0; left: 0; width: 64px; background: var(--paper); border-right: 1px solid var(--line); padding: 16px 12px; display: flex; flex-direction: column; gap: 16px; overflow: hidden; z-index: 2; }
+  .rail.open { width: 240px; }
+  .ritem { height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 12px; border-radius: 10px; font-size: 14px; font-weight: 500; color: var(--muted); white-space: nowrap; }
+  .ritem.on { background: var(--ink); color: var(--paper); }
+  .ritem svg { width: 16px; height: 16px; flex: 0 0 16px; }
+  .ritem.brandrow { color: var(--ink); font-family: var(--display); font-weight: 600; font-size: 16px; }
+  .ritem .box { width: 16px; height: 16px; flex: 0 0 16px; position: relative; }
+  .ritem .box .mark { position: absolute; left: -6px; top: -6px; }
+  .rail .grow { flex: 1; }
+  .ritem.note { font-size: 13px; font-weight: 400; }
+  .tabs { display: flex; gap: 4px; padding: 12px 16px 0; }
+  .page { padding: 32px; display: flex; flex-direction: column; gap: 24px; }
+  .phone .page { padding: 20px 16px 28px; gap: 20px; }
+  .head { display: flex; flex-direction: column; gap: 6px; }
+  .head .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .head h1 { font-family: var(--display); font-size: 32px; line-height: 36px; letter-spacing: -1px; font-weight: 600; }
+  .phone .head h1 { font-size: 26px; line-height: 30px; letter-spacing: -.6px; }
+  .head p { font-size: 15px; color: var(--muted); }
+  .pill { font-size: 11px; letter-spacing: .08em; font-weight: 500; text-transform: uppercase; border: 1px solid var(--line-strong); border-radius: 999px; padding: 3px 9px; color: var(--muted); }
+  .grid { display: grid; grid-template-columns: 372px minmax(0, 1fr); gap: 24px; align-items: start; }
+  .phone .grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .stack { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+  .lbl { font-size: 11px; line-height: 14px; letter-spacing: .08em; font-weight: 500; text-transform: uppercase; color: var(--subtle); }
+  .step { display: flex; align-items: center; gap: 8px; }
+  .step b { width: 22px; height: 22px; border-radius: 999px; background: var(--ink); color: var(--paper); font-family: var(--mono); font-size: 12px; display: grid; place-items: center; font-weight: 500; }
+  .step span { font-family: var(--display); font-weight: 600; font-size: 16px; }
+  .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .field > label { font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+  .q { width: 18px; height: 18px; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--muted); font-size: 11px; display: inline-grid; place-items: center; font-weight: 600; }
+  .input { height: 48px; border: 1px solid var(--line); background: var(--white); border-radius: 12px; display: flex; align-items: center; gap: 8px; padding: 0 14px; font-size: 15px; min-width: 0; }
+  .input .pre, .input .suf { color: var(--muted); font-size: 14px; }
+  .input .val { flex: 1; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; }
+  .input .chev { color: var(--muted); font-size: 12px; }
+  .input.big { height: 56px; font-size: 20px; font-family: var(--display); font-weight: 600; }
+  .two { display: flex; gap: 10px; }
+  .two > * { flex: 1; min-width: 0; }
+  .two > .year { flex: 0 0 104px; }
+  .stepper { display: flex; align-items: center; gap: 10px; }
+  .stepper .btn { width: 48px; height: 48px; border-radius: 12px; border: 1px solid var(--line); background: var(--white); display: grid; place-items: center; font-size: 20px; color: var(--ink); }
+  .stepper .n { flex: 1; height: 48px; border-radius: 12px; border: 1px solid var(--line); background: var(--white); display: grid; place-items: center; font-size: 16px; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .disc { display: flex; gap: 8px; align-items: center; }
+  .disc .input { flex: 1; }
+  .disc .input.amt { flex: 0 0 132px; }
+  .disc .x { width: 44px; height: 44px; display: grid; place-items: center; color: var(--muted); font-size: 18px; flex: 0 0 44px; }
+  .discbox { display: flex; flex-direction: column; gap: 8px; border: 1px solid var(--line); border-radius: 14px; padding: 10px; background: var(--hover); }
+  .mini { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .mini + .mini { border-top: 1px solid var(--line-strong); padding-top: 10px; }
+  .opts { display: flex; gap: 8px; }
+  .sub { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .sub > span { font-size: 12px; color: var(--muted); white-space: nowrap; display: flex; align-items: center; gap: 6px; min-height: 18px; }
+  .sub .q { font-style: normal; }
+  .two > .sub.pc { flex: 0 0 84px; }
+  .opt { flex: 1; min-width: 0; height: 44px; border: 1px solid var(--line); background: var(--white); border-radius: 12px; display: flex; align-items: center; gap: 8px; padding: 0 12px; font-size: 14px; font-weight: 500; white-space: nowrap; }
+  .opt i { width: 16px; height: 16px; border-radius: 999px; border: 1.5px solid var(--line-strong); flex: 0 0 16px; display: grid; place-items: center; }
+  .opt.on { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+  .opt.on i { border-color: var(--ink); }
+  .opt.on i::after { content: ''; width: 8px; height: 8px; border-radius: 999px; background: var(--ink); }
+  .mini > span { font-size: 12px; color: var(--muted); }
+  .part.less b { color: var(--danger); }
+  .add { height: 44px; border-radius: 12px; border: 1px dashed var(--line-strong); display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 14px; font-weight: 500; color: var(--muted); }
+  .hint { font-size: 13px; color: var(--muted); display: flex; gap: 8px; align-items: center; }
+  .radio { border: 1px solid var(--line); background: var(--white); border-radius: 12px; padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start; }
+  .radio.on { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+  .radio .dot { width: 18px; height: 18px; border-radius: 999px; border: 1.5px solid var(--line-strong); flex: 0 0 18px; margin-top: 1px; display: grid; place-items: center; }
+  .radio.on .dot { border-color: var(--ink); }
+  .radio.on .dot::after { content: ''; width: 9px; height: 9px; border-radius: 999px; background: var(--ink); }
+  .radio .t { font-size: 14px; font-weight: 500; }
+  .radio .d { font-size: 13px; color: var(--muted); }
+  .cta { height: 50px; border-radius: 14px; background: var(--ink); color: var(--paper); display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; font-weight: 600; }
+
+  .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .heroes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .phone .heroes { grid-template-columns: 1fr; }
+  .hero { border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 10px; border: 1px solid var(--line); background: var(--card); min-width: 0; }
+  .hero.net { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+  .hero.net .lbl { color: #B9B4A8; }
+  .hero .big { font-family: var(--display); font-weight: 700; font-size: 46px; line-height: 46px; letter-spacing: -1.6px; }
+  .phone .hero .big { font-size: 38px; line-height: 40px; letter-spacing: -1.2px; }
+  .hero .big small { font-size: .45em; font-weight: 600; letter-spacing: 0; margin-right: 6px; opacity: .7; }
+  .hero .meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px; }
+  .hero .was { color: var(--muted); }
+  .hero.net .was { color: #B9B4A8; }
+  .chip { font-size: 13px; font-weight: 600; border-radius: 999px; padding: 3px 10px; background: var(--raise-soft); color: var(--raise); }
+  .hero.net .chip { background: #1F8F66; color: #fff; }
+
+  .title { display: flex; align-items: center; gap: 8px; }
+  .title h2 { font-family: var(--display); font-weight: 600; font-size: 18px; }
+  .title p { font-size: 13px; color: var(--muted); }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+  .sw-base { background: var(--base); } .sw-raise { background: var(--raise); } .sw-arr { background: var(--arrears); }
+
+  .months { display: flex; flex-direction: column; }
+  .mrow { display: grid; grid-template-columns: 132px minmax(0, 1fr) 160px; gap: 12px; align-items: center; padding: 16px 0; border-top: 1px solid var(--line); }
+  .mrow:first-child { border-top: 0; padding-top: 0; }
+  .mrow:last-child { padding-bottom: 0; }
+  .mrow .when b { display: block; white-space: nowrap; font-family: var(--display); font-weight: 600; font-size: 16px; }
+  .mrow .when span { font-size: 12px; color: var(--muted); }
+  .mrow .mid { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .bar { display: flex; height: 10px; border-radius: 999px; overflow: hidden; gap: 2px; }
+  .bar i { display: block; height: 100%; }
+  .parts { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; font-size: 13px; }
+  .part { display: flex; flex-direction: column; gap: 1px; }
+  .part em { font-style: normal; font-size: 11px; color: var(--muted); }
+  .part b { font-family: var(--mono); font-weight: 500; font-size: 13px; }
+  .part.raise b { color: var(--raise); } .part.arr b { color: var(--arrears); }
+  .op { font-family: var(--mono); color: var(--subtle); font-size: 14px; align-self: flex-end; padding-bottom: 1px; }
+  .mrow .tot { text-align: right; }
+  .mrow .tot em { font-style: normal; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--subtle); display: block; }
+  .mrow .tot b { font-family: var(--display); font-weight: 700; font-size: 24px; letter-spacing: -.6px; }
+  .mrow.rest .tot b { font-size: 20px; }
+  .mrow.now { opacity: .7; }
+  .phone .mrow { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .phone .mrow .tot { text-align: left; display: flex; align-items: baseline; justify-content: space-between; border-top: 1px dashed var(--line-strong); padding-top: 10px; }
+  .phone .parts { flex-direction: column; align-items: stretch; gap: 6px; }
+  .phone .part { flex-direction: row; justify-content: space-between; align-items: baseline; }
+  .phone .part em { font-size: 13px; }
+  .phone .op { display: none; }
+
+  .details { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
+  .details .wide { grid-column: span 2; }
+  .phone .details { grid-template-columns: minmax(0, 1fr); }
+  .phone .details .wide { grid-column: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { padding: 7px 0 7px 12px; text-align: right; font-weight: 400; }
+  th:first-child, td:first-child { text-align: left; padding-left: 0; color: var(--muted); }
+  thead th { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--subtle); font-weight: 500; }
+  td { font-family: var(--mono); font-size: 13px; white-space: nowrap; }
+  td:first-child { font-family: var(--sans); font-size: 14px; white-space: normal; }
+  tr.total td { border-top: 1px solid var(--line); padding-top: 10px; font-weight: 600; color: var(--ink); }
+  td.new { color: var(--ink); font-weight: 500; }
+  td.delta { color: var(--muted); }
+  .phone .c-delta { display: none; }
+  .lines { display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
+  .line { display: flex; align-items: baseline; gap: 12px; }
+  .line .k { flex: 1; color: var(--muted); display: flex; flex-direction: column; min-width: 0; }
+  .line .k small { font-size: 12px; }
+  .line .v { font-family: var(--mono); font-size: 13px; white-space: nowrap; }
+  .line.total { border-top: 1px solid var(--line); padding-top: 10px; font-weight: 600; }
+  .line.total .k { color: var(--ink); }
+  .callout { background: var(--hover); border-radius: 12px; padding: 10px 14px; font-size: 13px; color: var(--muted); }
+  .foot { font-size: 12px; color: var(--subtle); line-height: 1.5; }
+  .empty { min-height: 360px; border: 1px dashed var(--line-strong); border-radius: 16px; display: flex; flex-direction: column; gap: 10px; align-items: center; justify-content: center; text-align: center; padding: 24px; color: var(--muted); font-size: 14px; }
+  .empty b { font-family: var(--mono); font-size: 22px; color: var(--subtle); font-weight: 500; }
+</style>
+</head>
+<body>
+
+<div class="doc">
+  <h1>clt-calculators-web · Calculadora de reajuste salarial</h1>
+  <p>Site só em português, tema claro, sem login. Tudo é calculado no navegador; nada é enviado nem guardado. Os valores do exemplo são fictícios: salário atual de R$ 9.000,00, reajuste de 5% sobre R$ 8.000,00 valendo desde maio/2026, primeira folha em setembro/2026, retroativo em 2 parcelas, 15 dias de férias no período, desconto do vale alimentação passando de R$ 2,00 fixos para 5% de um vale de R$ 900,00.</p>
+  <ul>
+    <li><b>Menu lateral:</b> trilho de ícones de 64px que abre com o mouse em cima, com uma linha por calculadora. Abaixo de 1024px as calculadoras ficam numa fileira de abas sob o topo.</li>
+    <li><b>Formulário:</b> “Calcular” é um botão, nunca um resultado ao vivo; mudar um campo depois marca o resultado como desatualizado. O salário-base do reajuste e a linha “Depois do reajuste” do vale seguem o valor de hoje até alguém digitar outro.</li>
+    <li><b>Resultado:</b> os novos salários bruto e líquido são os dois números grandes; “O que cai na conta” mostra, folha a folha, líquido anterior + aumento líquido + parcela do retroativo, com a mudança nos descontos à parte.</li>
+    <li><b>Explicações:</b> ficam atrás do “?” de cada campo, nunca numa linha de dica.</li>
+  </ul>
+</div>
+
+<div class="sec">
+  <h2>1 · Desktop (1280) — resultado calculado</h2>
+  <div class="frame desktop" id="d-result"></div>
+</div>
+
+<div class="sec">
+  <h2>2 · Desktop (1280) — antes de calcular, com o menu aberto</h2>
+  <p class="note">Estado ao abrir o site: nada preenchido, “Calcular” desligado até o formulário estar completo. O menu lateral está desenhado aberto, como fica com o mouse em cima: ele flutua sobre a página e nada se move. Cada calculadora nova vira uma linha nele.</p>
+  <div class="frame desktop" id="d-empty"></div>
+</div>
+
+<div class="sec">
+  <h2>3 · Celular (375)</h2>
+  <p class="note">No celular não há menu lateral: as calculadoras ficam numa fileira de abas sob o topo. Uma tela só, rolada: o formulário em cima e, depois de tocar em Calcular, o resultado logo abaixo (a página rola até ele). Os dois quadros são a mesma tela em dois pontos da rolagem.</p>
+  <div class="phones">
+    <div class="col">
+      <div class="cap">3a · Formulário (topo da tela)</div>
+      <div class="frame phone" id="p-form"></div>
+      <div class="sub">↓ continua em 3b ao tocar em Calcular</div>
+    </div>
+    <div class="col">
+      <div class="cap">3b · Resultado (mesma tela, rolada)</div>
+      <div class="frame phone" id="p-result"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const topBar = `
+    <div class="top">
+      <div class="mark">%</div>
+      <div class="brand">Calculadoras CLT</div>
+      <div class="privacy">🔒 Nada do que você digita sai do seu navegador</div>
+    </div>`;
+
+  const head = `
+    <div class="head">
+      <div class="row"><h1>Reajuste salarial</h1><span class="pill">CLT · tabelas 2026</span></div>
+      <p>Quanto muda no seu líquido e quanto vem de retroativo.</p>
+    </div>`;
+
+  const field = (label, body, help) => `
+    <div class="field"><label>${label}${help ? '<span class="q">?</span>' : ''}</label>${body}</div>`;
+  const input = (val, { pre = '', suf = '', cls = '', chev = false } = {}) => `
+    <div class="input ${cls}">${pre ? `<span class="pre">${pre}</span>` : ''}<span class="val">${val}</span>${suf ? `<span class="suf">${suf}</span>` : ''}${chev ? '<span class="chev">▾</span>' : ''}</div>`;
+  const month = (m, y) => `<div class="two">${input(m, { chev: true })}<div class="year">${input(y, { chev: true })}</div></div>`;
+
+  const ph = (t) => `<span style="color:var(--subtle)">${t}</span>`;
+  const opts = (variable) => `
+    <div class="opts">
+      <div class="opt ${variable ? 'on' : ''}"><i></i>% do vale</div>
+      <div class="opt ${variable ? '' : 'on'}"><i></i>Valor fixo</div>
+    </div>`;
+
+  const pct = (vale) => `
+    <div class="two">
+      <div class="sub pc"><span>Percentual</span>${input('5', { suf: '%' })}</div>
+      <div class="sub"><span>Vale alimentação por mês <i class="q">?</i></span>${input(vale, { pre: 'R$' })}</div>
+    </div>`;
+
+  const form = (filled) => `
+    <div class="stack">
+      <div class="card">
+        <div class="step"><b>1</b><span>Seu salário hoje</span></div>
+        ${field('Salário bruto atual',input(filled ? '9.000,00' : '<span style="color:var(--subtle)">0,00</span>', { pre: 'R$', cls: 'big' }))}
+        ${field('Dependentes no IRRF', `<div class="stepper"><div class="btn">−</div><div class="n">0</div><div class="btn">+</div></div>`, true)}
+        ${field('Desconto do vale alimentação', `
+          <div class="discbox">
+            <div class="mini"><span>Hoje</span>
+              ${opts(!filled)}
+              ${filled ? input('2,00', { pre: 'R$', suf: 'por mês' }) : pct(ph('0,00'))}
+            </div>
+            <div class="mini"><span>Depois do reajuste</span>
+              ${opts(true)}
+              ${pct(filled ? '900,00' : ph('0,00'))}
+              ${filled ? '<div class="hint">= R$ 45,00 de desconto</div>' : ''}
+            </div>
+          </div>`, true)}
+        ${field('Outros descontos fixos', `<div class="add">+ Adicionar desconto</div>`, true)}
+      </div>
+      <div class="card">
+        <div class="step"><b>2</b><span>O reajuste</span></div>
+        ${field('Reajuste', input(filled ? '5' : '', { suf: '%' }))}
+        ${field('Salário-base do reajuste', input(filled ? '8.000,00' : '<span style="color:var(--subtle)">0,00</span>', { pre: 'R$' }), true)}
+        ${field('Vale a partir de', filled ? month('Maio', '2026') : month('<span style="color:var(--subtle)">Mês</span>', '<span style="color:var(--subtle)">Ano</span>'), true)}
+        ${field('Primeira folha com o salário novo', filled ? month('Setembro', '2026') : month('<span style="color:var(--subtle)">Mês</span>', '<span style="color:var(--subtle)">Ano</span>'), true)}
+        ${filled ? '<div class="hint">↺ Retroativo de 4 meses: mai/2026 a ago/2026</div>' : ''}
+        ${field('Dias de férias tirados nesses meses', input(filled ? '15' : '0', { suf: 'dias' }), true)}
+        ${field('Parcelas do retroativo (1 a 12)', input('2'))}
+        <div class="cta" ${filled ? '' : 'style="opacity:.4"'}>Calcular</div>
+      </div>
+    </div>`;
+
+  const bar = (a, b, c) => `<div class="bar"><i class="sw-base" style="flex:${a}"></i>${b ? `<i class="sw-raise" style="flex:${b}"></i>` : ''}${c ? `<i class="sw-arr" style="flex:${c}"></i>` : ''}</div>`;
+  const payMonth = (name, sub, arr, total) => `
+    <div class="mrow">
+      <div class="when"><b>${name}</b><span>${sub}</span></div>
+      <div class="mid">
+        ${bar(6715.38, 290.00, 640.84)}
+        <div class="parts">
+          <div class="part"><em>Líquido anterior</em><b class="num">R$ 6.715,38</b></div><span class="op">+</span>
+          <div class="part raise"><em>Aumento líquido</em><b class="num">R$ 290,00</b></div><span class="op">+</span>
+          <div class="part arr"><em>Parcela do retroativo</em><b class="num">R$ ${arr}</b></div>
+          <div class="part less"><em>Descontos</em><b class="num">− R$ 43,00</b></div>
+        </div>
+      </div>
+      <div class="tot"><em>Cai na conta</em><b class="num">R$ ${total}</b></div>
+    </div>`;
+
+  const result = `
+    <div class="stack">
+      <div class="heroes">
+        <div class="hero">
+          <div class="lbl">Novo salário bruto</div>
+          <div class="big num"><small>R$</small>9.400,00</div>
+          <div class="meta"><span class="chip num">+ R$ 400,00 · 5% de R$ 8.000,00</span><span class="was num">antes R$ 9.000,00</span></div>
+        </div>
+        <div class="hero net">
+          <div class="lbl">Novo salário líquido</div>
+          <div class="big num"><small>R$</small>6.962,38</div>
+          <div class="meta"><span class="chip num">+ R$ 247,00 por mês</span><span class="was num">antes R$ 6.715,38</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="title"><h2>O que cai na conta</h2><span class="q">?</span></div>
+        <div class="legend"><span><i class="sw-base"></i>Líquido anterior</span><span><i class="sw-raise"></i>Aumento líquido</span><span><i class="sw-arr"></i>Parcela do retroativo</span></div>
+        <div class="months">
+          ${payMonth('Setembro 2026', 'Parcela 1 de 2', '640,84', '7.603,22')}
+          ${payMonth('Outubro 2026', 'Parcela 2 de 2', '640,83', '7.603,21')}
+          <div class="mrow rest">
+            <div class="when"><b>Novembro 2026</b><span>em diante</span></div>
+            <div class="mid">
+              ${bar(6715.38, 290.00, 0)}
+              <div class="parts">
+                <div class="part"><em>Líquido anterior</em><b class="num">R$ 6.715,38</b></div><span class="op">+</span>
+                <div class="part raise"><em>Aumento líquido</em><b class="num">R$ 290,00</b></div>
+                <div class="part less"><em>Descontos</em><b class="num">− R$ 43,00</b></div>
+              </div>
+            </div>
+            <div class="tot"><em>Cai na conta</em><b class="num">R$ 6.962,38</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="details">
+        <div class="card wide">
+          <div class="lbl">Folha mensal · antes e depois</div>
+          <table>
+            <thead><tr><th></th><th>Antes</th><th>Depois</th><th class="c-delta">Diferença</th></tr></thead>
+            <tbody>
+              <tr><td>Salário bruto</td><td>R$ 9.000,00</td><td class="new">R$ 9.400,00</td><td class="delta c-delta">+ R$ 400,00</td></tr>
+              <tr><td>INSS</td><td>− R$ 988,07</td><td class="new">− R$ 988,07</td><td class="delta c-delta">R$ 0,00</td></tr>
+              <tr><td>IRRF</td><td>− R$ 1.294,55</td><td class="new">− R$ 1.404,55</td><td class="delta c-delta">− R$ 110,00</td></tr>
+              <tr><td>Vale alimentação</td><td>− R$ 2,00</td><td class="new">− R$ 45,00</td><td class="delta c-delta">− R$ 43,00</td></tr>
+              <tr class="total"><td>Líquido</td><td>R$ 6.715,38</td><td>R$ 6.962,38</td><td class="c-delta">+ R$ 247,00</td></tr>
+            </tbody>
+          </table>
+          <div class="callout">O INSS não muda: os dois salários já estão no teto. Do aumento, só sai IRRF.</div>
+        </div>
+
+        <div class="card">
+          <div class="lbl">Retroativo · mai/2026 – ago/2026</div>
+          <div class="lines">
+            <div class="line"><span class="k">Diferença de salário<small>4 meses × R$ 400,00, menos 15 dias de férias</small></span><span class="v">R$ 1.400,00</span></div>
+            <div class="line"><span class="k">Diferença de férias<small>15 dias</small></span><span class="v">R$ 200,00</span></div>
+            <div class="line"><span class="k">1/3 de férias</span><span class="v">R$ 66,67</span></div>
+            <div class="line"><span class="k">INSS<small>O salário já estava no teto</small></span><span class="v">− R$ 0,00</span></div>
+            <div class="line"><span class="k">IRRF<small>Só sobre a diferença de salário</small></span><span class="v">− R$ 385,00</span></div>
+            <div class="line total"><span class="k">Líquido<small style="font-weight:400;color:var(--muted)">Parcelas de R$ 640,84 e R$ 640,83</small></span><span class="v">R$ 1.281,67</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="title"><div class="lbl">FGTS · depositado pela empresa</div><span class="q">?</span></div>
+          <div class="lines">
+            <div class="line"><span class="k">Por mês</span><span class="v">R$ 720,00 → R$ 752,00</span></div>
+            <div class="line"><span class="k">A mais por mês</span><span class="v">+ R$ 32,00</span></div>
+            <div class="line"><span class="k">Sobre o retroativo</span><span class="v">+ R$ 133,33</span></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="foot">Estimativa com as tabelas oficiais de INSS e IRRF de 2026. O retroativo é tratado como diferença de salário, com INSS, IRRF e FGTS. A diferença de férias entra sem IRRF na parcela. Não considera 13º nem outras verbas pagas na mesma folha.</p>
+    </div>`;
+
+  const empty = `<div class="empty"><b>R$ —</b>Preencha seu salário e o reajuste e toque em Calcular.</div>`;
+
+  const icoRaise = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>';
+  const icoLock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+  const rail = (open) => `
+    <div class="rail-slot"><div class="rail ${open ? 'open' : ''}">
+      <div class="ritem brandrow"><span class="box"><span class="mark">%</span></span>${open ? '<span>Calculadoras CLT</span>' : ''}</div>
+      <div class="ritem on">${icoRaise}${open ? '<span>Reajuste salarial</span>' : ''}</div>
+      <div class="grow"></div>
+      <div class="ritem note">${icoLock}${open ? '<span>Nada sai do seu navegador</span>' : ''}</div>
+    </div></div>`;
+  const tabs = `<div class="tabs"><div class="ritem on">${icoRaise}<span>Reajuste salarial</span></div></div>`;
+
+  const body = (left, right) => `<div class="page">${head}<div class="grid">${left}${right}</div></div>`;
+  const desktop = (left, right, open) => `<div class="shell">${rail(open)}<div class="main">${body(left, right)}</div></div>`;
+  document.getElementById('d-result').innerHTML = desktop(form(true), result, false);
+  document.getElementById('d-empty').innerHTML = desktop(form(false), empty, true);
+  document.getElementById('p-form').innerHTML = `${topBar}${tabs}${body(form(true), '')}`;
+  document.getElementById('p-result').innerHTML = `<div class="page"><div class="grid">${result}</div></div>`;
+</script>
+</body>
+</html>
